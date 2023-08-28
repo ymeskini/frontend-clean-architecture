@@ -1,0 +1,7 @@
+{
+  "name": "frontend-clean-architecture",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Youssef Meskini <youss.meskini@gmail.com>",
+  "license": "MIT"
+}
