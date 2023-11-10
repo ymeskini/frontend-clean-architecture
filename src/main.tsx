@@ -1,5 +1,5 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
+
 import { Provider } from "./Provider.tsx";
 import { createStore } from "./lib/create-store.ts";
 import { FakeAuthGateway } from "./lib/auth/infra/fake-auth.gateway.ts";
@@ -11,6 +11,13 @@ import { FakeMessageGateway } from "./lib/timelines/infra/fake-message.gateway.t
 import { RealDateProvider } from "./lib/timelines/infra/real-date-provider.ts";
 import { FakeDataUserGateway } from "./lib/users/infra/fake-data-user.gateway.ts";
 import { FakeStorageNotificationGateway } from "./lib/notifications/infra/fake-storage.notification.gateway.ts";
+import { StrictMode } from "react";
+
+declare global {
+  interface Window {
+    __NOTIF__: FakeStorageNotificationGateway;
+  }
+}
 
 const fakeAuthGateway = new FakeAuthGateway(500);
 fakeAuthGateway.willSucceedForGoogleAuthForUser = [...users.values()][0];
@@ -37,7 +44,7 @@ const store = createStore({
 const router = createRouter({ store });
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider store={store} router={router} />
-  </React.StrictMode>
+  </StrictMode>
 );

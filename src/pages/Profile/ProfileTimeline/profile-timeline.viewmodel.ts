@@ -18,16 +18,19 @@ export enum ProfileTimelineViewModelType {
   WithMessages = "TIMELINE_WITH_MESSAGES",
 }
 
+
+type TimelineModelArgs = {
+  userId: string;
+  getNow: () => string;
+  dispatch: AppDispatch;
+}
+
 export const createProfileTimelineViewModel =
   ({
     userId,
     getNow,
     dispatch,
-  }: {
-    userId: string;
-    getNow: () => string;
-    dispatch: AppDispatch;
-  }) =>
+  }: TimelineModelArgs) =>
   (
     rootState: RootState
   ): {
