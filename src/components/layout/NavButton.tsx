@@ -1,5 +1,4 @@
 import {
-  As,
   Box,
   Button,
   ButtonProps,
@@ -11,7 +10,7 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 type NavButtonProps = ButtonProps & {
-  icon: As;
+  icon: React.ElementType;
   label: string;
   to: string;
   endElement?: ReactNode;

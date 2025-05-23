@@ -16,7 +16,7 @@ vitest.mock("firebase/auth", async (importOriginal) => {
   };
   let stubSignInWithPopupUser: Partial<UserCredential>;
   const onAuthStateChanged = (
-    auth: Auth,
+    _auth: Auth,
     listener: (user: User | null) => void
   ) => {
     authStateChangedListener = listener;

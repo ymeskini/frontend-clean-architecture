@@ -14,7 +14,6 @@ import {
   selectAreFollowingOfLoading,
 } from "../slices/relationships.slice";
 import {
-  selectIsProfilePictureUploading,
   selectIsUserLoading,
 } from "../slices/users.slice";
 import { getUser } from "../usecases/get-user.usecase";

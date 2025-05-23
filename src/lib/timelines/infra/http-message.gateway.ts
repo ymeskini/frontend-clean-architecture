@@ -16,7 +16,7 @@ export class HttpMessageGateway implements MessageGateway {
     });
   }
 
-  likeMessage(like: {
+  likeMessage(_like: {
     id: string;
     userId: string;
     messageId: string;
@@ -24,7 +24,7 @@ export class HttpMessageGateway implements MessageGateway {
     throw new Error("Method not implemented.");
   }
 
-  unlikeMessage(likeId: string): Promise<void> {
+  unlikeMessage(_likeId: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }

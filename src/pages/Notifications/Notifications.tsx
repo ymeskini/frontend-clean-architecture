@@ -6,7 +6,6 @@ import {
   Stack,
   StackDivider,
   Text,
-  keyframes,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +15,12 @@ import {
 import { exhaustiveGuard } from "@/lib/common/utils/exhaustive-guard";
 import { useState } from "react";
 import { AppDispatch } from "@/lib/create-store";
+import { keyframes } from "@emotion/react";
+
+const fade = keyframes`
+    from { background-color: rgba(200, 233, 251, 1); }
+    to { background-color: rgba(200, 233, 251, 0) }
+`;
 
 export const Notifications = () => {
   const [lastSeenNotificationId, setLastSeenNotificationId] = useState("");
@@ -53,28 +58,24 @@ export const Notifications = () => {
                   </Button>
                 </Center>
               )}
-              {viewModel.notifications.map((n) => (
-                <Notification
-                  key={n.id}
-                  boxShadow="none"
-                  borderRadius="none"
-                  color="blackAlpha.700"
-                  bgColor="white"
-                  profilePicture={n.imageUrl}
-                  title={n.title}
-                  text={n.text}
-                  url={n.url}
-                  occuredAt={n.occuredAt}
-                  animation={
-                    n.read
-                      ? ""
-                      : `${keyframes`
-                from { background-color: rgba(200, 233, 251, 1); }
-                to { background-color: rgba(200, 233, 251, 0) }
-              `} 2s linear forwards`
-                  }
-                />
-              ))}
+              {viewModel.notifications.map((n) => {
+                const animation = n.read ? "" : `${fade} 2s linear forwards`;
+                return (
+                  <Notification
+                    key={n.id}
+                    boxShadow="none"
+                    borderRadius="none"
+                    color="blackAlpha.700"
+                    bgColor="white"
+                    profilePicture={n.imageUrl}
+                    title={n.title}
+                    text={n.text}
+                    url={n.url}
+                    occuredAt={n.occuredAt}
+                    animation={animation}
+                  />
+                );
+              })}
             </Stack>
           </Box>
         </Center>

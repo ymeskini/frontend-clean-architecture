@@ -6,7 +6,7 @@ export class FailingMessageGateway implements MessageGateway {
     return Promise.reject(this.willFailWithError);
   }
 
-  likeMessage(like: {
+  likeMessage(_like: {
     id: string;
     userId: string;
     messageId: string;
@@ -14,7 +14,7 @@ export class FailingMessageGateway implements MessageGateway {
     return Promise.reject();
   }
 
-  unlikeMessage(likeId: string): Promise<void> {
+  unlikeMessage(_likeId: string): Promise<void> {
     return Promise.reject();
   }
 }

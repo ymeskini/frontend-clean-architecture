@@ -150,10 +150,8 @@ export class FakeDataUserGateway implements UserGateway {
   }
 
   uploadProfilePicture({
-    userId,
     picture,
   }: {
-    userId: string;
     picture: Picture;
   }): Promise<string> {
     return new Promise((resolve) =>

@@ -10,8 +10,7 @@
     "preview": "vite preview",
     "test": "vitest --config ./vitest.config.ts",
     "test:integration": "vitest --config ./vitest.config.integration.ts",
-    "test:e2e": "vitest --config ./vitest.config.e2e.ts",
-    "postinstall": "patch-package"
+    "test:e2e": "vitest --config ./vitest.config.e2e.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.6.1",
@@ -45,10 +44,9 @@
     "eslint-plugin-react-refresh": "^0.3.4",
     "jsdom": "^22.0.0",
     "nock": "^13.3.1",
-    "patch-package": "^7.0.0",
     "typescript": "^5.0.2",
-    "vite": "^4.3.2",
+    "vite": "^6.3.5",
     "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^0.31.0"
+    "vitest": "^3.1.4"
   }
 }
