@@ -13,7 +13,7 @@ const createTestProfileLayoutViewModel = ({
   dispatch?: AppDispatch;
 }) => createProfileLayoutViewModel({ userId, dispatch });
 
-describe.only("Profile layout view model", () => {
+describe("Profile layout view model", () => {
   it("returns the user information", () => {
     const state = stateBuilder()
       .withUsers([
