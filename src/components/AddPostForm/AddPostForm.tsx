@@ -35,7 +35,6 @@ export const AddPostForm = ({
   const [charactersCount, setCharactersCount] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const {
-    handleTextChange,
     canSubmit,
     remaining,
     inputBackroundColor,
@@ -43,9 +42,7 @@ export const AddPostForm = ({
     authUser,
   } = useSelector(
     createAddPostFormViewModel({
-      maxCharacters: 100,
       charactersCount,
-      setCharactersCount,
     })
   );
   const textarea = useRef<HTMLTextAreaElement>(null);
@@ -79,7 +76,7 @@ export const AddPostForm = ({
             bgColor={inputBackroundColor}
             name="text"
             onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
-              handleTextChange(event.target.value);
+              setCharactersCount(event.target.value.trim().length);
             }}
             required
           />

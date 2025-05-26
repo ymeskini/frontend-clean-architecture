@@ -13,7 +13,12 @@ export const Provider = ({
 }) => (
   <ReduxProvider store={store}>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <RouterProvider
+        future={{
+          v7_startTransition: true,
+        }}
+        router={router}
+      />
     </ChakraProvider>
   </ReduxProvider>
 );

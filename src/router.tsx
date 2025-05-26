@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
+
+import { AppStore } from "./lib/create-store";
 import { Home } from "./pages/Home/Home";
 import { ProtectedPageLayout } from "./pages/ProtectedPageLayout";
 import { createHomeLoader } from "./pages/Home/create-home-loader";
-import { AppStore } from "./lib/create-store";
 import { Login } from "./pages/Login";
 import { RedirectHomePage } from "./pages/RedirectHomePage";
 import { ProfileLayout } from "./pages/Profile/ProfileLayout";
