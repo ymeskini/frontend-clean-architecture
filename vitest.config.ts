@@ -5,7 +5,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
+      globals: true,
       include: ["src/**/*.(test|spec).ts"],
+      setupFiles: ['./vitest.setup.ts']
     },
   })
 );

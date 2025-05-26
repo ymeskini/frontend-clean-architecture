@@ -1,19 +1,12 @@
 import { selectAuthUser } from "@/lib/auth/reducer";
-import { AppDispatch, RootState } from "@/lib/create-store";
-import { postMessage } from "@/lib/timelines/usecases/post-message.usecase";
+import { RootState } from "@/lib/create-store";
 
 export const createAddPostFormViewModel =
   ({
-    dispatch,
-    messageId,
-    timelineId,
     maxCharacters,
     charactersCount,
     setCharactersCount,
   }: {
-    dispatch: AppDispatch;
-    messageId: string;
-    timelineId: string;
     maxCharacters: number;
     charactersCount: number;
     setCharactersCount: (newCharactersCount: number) => void;
@@ -27,16 +20,6 @@ export const createAddPostFormViewModel =
     const charCounterColor = hasReachedMaxCount ? "red.300" : "muted";
 
     return {
-      postMessage(text: string) {
-        dispatch(
-          postMessage({
-            messageId,
-            timelineId,
-            text: text.trim(),
-          })
-        );
-        setCharactersCount(0);
-      },
       handleTextChange(newText: string) {
         setCharactersCount(newText.trim().length);
       },

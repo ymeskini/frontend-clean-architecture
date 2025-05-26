@@ -1,4 +1,3 @@
-import { AppDispatch } from "@/lib/create-store";
 import {
   Avatar,
   Button,
@@ -10,10 +9,12 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { nanoid } from "@reduxjs/toolkit";
+import { Link } from "react-router-dom";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 
+import { AppDispatch } from "@/lib/create-store";
+import { postMessage as postMessageCommand } from "@/lib/timelines/usecases/post-message.usecase";
 import { createAddPostFormViewModel } from "./add-post-form.viewmodel";
 
 interface AddPostFormElements extends HTMLFormControlsCollection {
@@ -34,7 +35,6 @@ export const AddPostForm = ({
   const [charactersCount, setCharactersCount] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const {
-    postMessage,
     handleTextChange,
     canSubmit,
     remaining,
@@ -43,9 +43,6 @@ export const AddPostForm = ({
     authUser,
   } = useSelector(
     createAddPostFormViewModel({
-      dispatch,
-      messageId: nanoid(5),
-      timelineId,
       maxCharacters: 100,
       charactersCount,
       setCharactersCount,
@@ -53,10 +50,15 @@ export const AddPostForm = ({
   );
   const textarea = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (event: FormEvent<IAddPostForm>) => {
+  const handleSubmit = async (event: FormEvent<IAddPostForm>) => {
     event.preventDefault();
     const text = event.currentTarget.elements.text.value;
-    postMessage(text);
+    await dispatch(postMessageCommand({
+      messageId: nanoid(5),
+      text,
+      timelineId,
+    }));
+    setCharactersCount(0);
     if (textarea.current) {
       textarea.current.value = "";
     }
@@ -85,7 +87,7 @@ export const AddPostForm = ({
       </Stack>
       <Flex direction="row-reverse" py="4" px={{ base: "4", md: "6" }}>
         <Button
-          colorScheme="twitter"
+          colorScheme="blue"
           type="submit"
           variant="solid"
           isDisabled={!canSubmit}

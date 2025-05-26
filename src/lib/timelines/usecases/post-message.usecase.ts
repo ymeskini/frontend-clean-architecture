@@ -1,7 +1,8 @@
-import { createAppAsyncThunk } from "@/lib/create-app-thunk";
-import { Message } from "../model/message.entity";
 import { createAction } from "@reduxjs/toolkit";
+import { createAppAsyncThunk } from "@/lib/create-app-thunk";
 import { selectAuthUserId } from "@/lib/auth/reducer";
+
+import { Message } from "../model/message.entity";
 
 export type PostMessageParams = {
   messageId: string;
@@ -27,6 +28,7 @@ export const postMessage = createAppAsyncThunk(
       publishedAt: dateProvider.getNow().toISOString(),
       likes: [],
     };
+
     dispatch(postMessagePending(message));
 
     return messageGateway.postMessage({

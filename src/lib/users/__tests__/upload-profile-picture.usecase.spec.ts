@@ -24,11 +24,14 @@ describe("Feature: uploading a new profile picture", () => {
   test("Example: Alice upload a new profile picture", async () => {
     const alice = buildUser({
       id: "alice-id",
-      profilePicture: "alice.png",
+      profilePicture: "alice2-preview.png",
     });
+
     const alice2png = {
       name: "alice2.png",
     } as Picture;
+
+
     authFixture.givenAuthenticatedUserIs({
       id: alice.id,
       username: alice.username,
