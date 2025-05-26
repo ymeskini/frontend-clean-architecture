@@ -32,12 +32,9 @@ describe("Login", () => {
     const store = createTestStore({
       authGateway,
     });
-    const user = userEvent.setup();
     const router = createRouter({ store });
     render(<Provider store={store} router={router} />);
-    const loginWithGoogle = await screen.findByText("Continue with Google");
-
-    await user.click(loginWithGoogle);
+    await userEvent.click(await screen.findByText("Continue with Google"));
 
     expect(await screen.findByText("For you")).toBeInTheDocument();
   });
