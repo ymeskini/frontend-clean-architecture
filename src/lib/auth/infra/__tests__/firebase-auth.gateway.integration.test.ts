@@ -1,4 +1,3 @@
-import { describe, test, vitest, expect } from "vitest";
 import { FirebaseAuthGateway } from "../firebase-auth.gateway";
 import {
   GoogleAuthProvider,

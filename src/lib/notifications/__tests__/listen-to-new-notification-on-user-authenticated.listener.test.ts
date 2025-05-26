@@ -1,4 +1,3 @@
-import { it, expect } from "vitest";
 import { FakeNotificationGateway } from "../infra/fake-notification.gateway";
 import { createTestStore } from "@/lib/create-store";
 import { userAuthenticated } from "@/lib/auth/reducer";

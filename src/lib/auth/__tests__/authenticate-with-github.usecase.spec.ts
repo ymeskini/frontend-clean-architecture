@@ -1,6 +1,5 @@
 import { createTestStore } from "@/lib/create-store";
 import { stateBuilder } from "@/lib/state-builder";
-import { describe, test, expect } from "vitest";
 import { FakeAuthGateway } from "../infra/fake-auth.gateway";
 import { authenticateWithGithub } from "../usecases/authenticate-with-github.usecase";
 import { AuthUser } from "../model/auth.gateway";

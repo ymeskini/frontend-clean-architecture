@@ -1,5 +1,4 @@
 import { EMPTY_ARGS, createTestStore } from "@/lib/create-store";
-import { it, expect } from "vitest";
 import { getNotifications } from "../usecases/get-notifications.usecase";
 import { userAuthenticated } from "@/lib/auth/reducer";
 

@@ -1,4 +1,3 @@
-import { expect } from "vitest";
 import { stateBuilder, stateBuilderProvider } from "@/lib/state-builder";
 import { FakeNotificationGateway } from "../infra/fake-notification.gateway";
 import { Notification } from "../model/notification.entity";

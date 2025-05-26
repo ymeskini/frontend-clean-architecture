@@ -1,6 +1,5 @@
 import { createTestStore } from "@/lib/create-store";
 import { stateBuilder } from "@/lib/state-builder";
-import { describe, test, expect } from "vitest";
 import { authenticateWithGoogle } from "../usecases/authenticate-with-google.usecase";
 import { FakeAuthGateway } from "../infra/fake-auth.gateway";
 import { AuthUser } from "../model/auth.gateway";

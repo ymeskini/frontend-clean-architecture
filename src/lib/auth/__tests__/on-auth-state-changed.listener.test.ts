@@ -1,4 +1,3 @@
-import { describe, it, expect } from "vitest";
 import { userAuthenticated } from "../reducer";
 import { createTestStore } from "@/lib/create-store";
 import { FakeAuthGateway } from "../infra/fake-auth.gateway";

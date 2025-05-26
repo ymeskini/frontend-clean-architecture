@@ -2,7 +2,6 @@ import {
   AuthFixture,
   createAuthFixture,
 } from "@/lib/auth/__tests__/auth.fixture";
-import { describe, test, beforeEach } from "vitest";
 import { UsersFixture, createUsersFixture } from "./users.fixture";
 import {
   StateBuilderProvider,

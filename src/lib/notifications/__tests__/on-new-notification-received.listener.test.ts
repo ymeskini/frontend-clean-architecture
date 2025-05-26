@@ -1,6 +1,5 @@
 import { createTestStore } from "@/lib/create-store";
 import { stateBuilder } from "@/lib/state-builder";
-import { it, expect } from "vitest";
 import { FakeNotificationGateway } from "../infra/fake-notification.gateway";
 import { onNewNotificationsReceived } from "../listeners/on-new-notification-received.listener";
 

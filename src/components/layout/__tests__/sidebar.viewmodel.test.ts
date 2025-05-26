@@ -1,5 +1,4 @@
 import { stateBuilder } from "@/lib/state-builder";
-import { describe, it, expect } from "vitest";
 import { createSidebarViewModel } from "../sidebar.viewmodel";
 
 describe("Sidebar view model", () => {

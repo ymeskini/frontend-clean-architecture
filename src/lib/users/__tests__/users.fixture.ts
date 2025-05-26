@@ -4,7 +4,6 @@ import {
   stateBuilder,
   stateBuilderProvider,
 } from "@/lib/state-builder";
-import { expect } from "vitest";
 import { getUserFollowers } from "../usecases/get-followers.usecase";
 import { FakeUserGateway } from "../infra/fake-user.gateway";
 import { getUserFollowing } from "../usecases/get-following.usecase";

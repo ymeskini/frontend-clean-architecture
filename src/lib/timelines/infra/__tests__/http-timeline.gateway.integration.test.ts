@@ -1,4 +1,3 @@
-import { describe, test, expect } from "vitest";
 import nock from "nock";
 import { GetUserTimelineResponse } from "../../model/timeline.gateway";
 import { HttpTimelineGateway } from "../http-timeline.gateway";

@@ -1,4 +1,3 @@
-import { describe, test, beforeEach } from "vitest";
 import { UsersFixture, createUsersFixture } from "./users.fixture";
 
 describe("Feature: Retrieving user", () => {

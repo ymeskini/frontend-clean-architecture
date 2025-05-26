@@ -1,4 +1,3 @@
-import { expect } from "vitest";
 import { FakeAuthGateway } from "@/lib/auth/infra/fake-auth.gateway";
 import { FakeTimelineGateway } from "../infra/fake-timeline.gateway";
 import { stateBuilder, stateBuilderProvider } from "@/lib/state-builder";

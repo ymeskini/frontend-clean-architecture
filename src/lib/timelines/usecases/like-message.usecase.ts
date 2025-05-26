@@ -1,6 +1,7 @@
+import { createAction } from "@reduxjs/toolkit";
 import { selectAuthUserId } from "@/lib/auth/reducer";
 import { createAppAsyncThunk } from "@/lib/create-app-thunk";
-import { createAction } from "@reduxjs/toolkit";
+
 import { Like } from "../model/like.entity";
 
 export type LikeMessageParams = {
