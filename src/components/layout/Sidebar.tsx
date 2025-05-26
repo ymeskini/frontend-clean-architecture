@@ -7,10 +7,11 @@ import {
   FiPower,
   FiTwitter,
 } from "react-icons/fi";
-import { NavButton } from "./NavButton";
-import { UserProfile } from "./UserProfile";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+import { UserProfile } from "./UserProfile";
+import { NavButton } from "./NavButton";
 import { createSidebarViewModel } from "./sidebar.viewmodel";
 
 export const Sidebar = () => {

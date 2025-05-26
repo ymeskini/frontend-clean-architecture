@@ -1,7 +1,8 @@
 import { nanoid } from "@reduxjs/toolkit";
+import { randParagraph, randPost } from "@ngneat/falso";
+
 import { Notification } from "../model/notification.entity";
 import { NotificationGateway } from "../model/notification.gateway";
-import { randParagraph, randPost } from "@ngneat/falso";
 
 export class FakeStorageNotificationGateway implements NotificationGateway {
   getNotifications({

@@ -1,13 +1,14 @@
+import { Text } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   ProfileTimelineViewModelType,
   createProfileTimelineViewModel,
 } from "@/pages/Profile/ProfileTimeline/profile-timeline.viewmodel";
-import { Text } from "@chakra-ui/react";
-import { ReactNode } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { PostList } from "./PostList";
-import { exhaustiveGuard } from "@/lib/common/utils/exhaustive-guard";
 import { AppDispatch } from "@/lib/create-store";
+import { exhaustiveGuard } from "@/lib/common/utils/exhaustive-guard";
+import { PostList } from "./PostList";
 
 const getNow = () => new Date().toISOString();
 
