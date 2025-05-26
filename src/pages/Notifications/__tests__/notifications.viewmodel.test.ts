@@ -3,9 +3,7 @@ import {
   NotificationsViewModelType,
   createNotificationsViewModel,
 } from "../notifications.viewmodel";
-import { RootState, createTestStore } from "@/lib/create-store";
-import { markAllNotificationsAsRead } from "@/lib/notifications/usecases/mark-all-notifications-as-read.usecase";
-import { EMPTY_ARGS } from "@/lib/create-store";
+import { RootState } from "@/lib/create-store";
 import { AppDispatch } from "@/lib/create-store";
 
 const createTestNotificationsViewModel =
@@ -13,7 +11,6 @@ const createTestNotificationsViewModel =
     now = new Date(),
     lastSeenNotificationId = "",
     setLastSeenNotificationId = vitest.fn(),
-    dispatch = vitest.fn(),
   }: {
     now?: Date;
     lastSeenNotificationId?: string;
@@ -25,7 +22,6 @@ const createTestNotificationsViewModel =
       now,
       lastSeenNotificationId,
       setLastSeenNotificationId,
-      dispatch,
     })(rootState);
 
 describe("Notifications view model", () => {
@@ -149,44 +145,4 @@ describe("Notifications view model", () => {
     });
   });
 
-  it("should notify about new last seen notification id when displaying new notifications and mark notifications as read", () => {
-    const setLastSeenNotificationId = vitest.fn();
-    const state = stateBuilder()
-      .withNotifications([
-        {
-          id: "n1-id",
-          title: "Title 1",
-          text: "Text 1",
-          occuredAt: "2023-06-05T12:19:00.000Z",
-          url: "https://some1.url",
-          read: true,
-          imageUrl: "image1.png",
-        },
-        {
-          id: "n2-id",
-          title: "Title 2",
-          text: "Text 2",
-          occuredAt: "2023-06-05T12:20:00.000Z",
-          url: "https://some2.url",
-          read: false,
-          imageUrl: "image2.png",
-        },
-      ])
-      .build();
-    const store = createTestStore({}, state);
-    const viewModel = createTestNotificationsViewModel({
-      lastSeenNotificationId: "n1-id",
-      setLastSeenNotificationId,
-      dispatch: store.dispatch,
-    })(store.getState());
-
-    if (viewModel.type === NotificationsViewModelType.NotificationsLoaded) {
-      viewModel.displayNewNotifications();
-
-      expect(setLastSeenNotificationId).toHaveBeenCalledWith("n2-id");
-      expect(
-        store.getDispatchedUseCaseArgs(markAllNotificationsAsRead)
-      ).toEqual(EMPTY_ARGS);
-    }
-  });
 });

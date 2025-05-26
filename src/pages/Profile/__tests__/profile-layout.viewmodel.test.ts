@@ -1,17 +1,14 @@
 import { createProfileLayoutViewModel } from "../profile-layout.viewmodel";
 import { stateBuilder } from "@/lib/state-builder";
 import { buildUser } from "@/lib/users/__tests__/user.builder";
-import { AppDispatch, createTestStore } from "@/lib/create-store";
-import { Picture } from "@/lib/users/model/picture";
-import { uploadProfilePicture } from "@/lib/users/usecases/upload-profile-picture.usecase";
+import { AppDispatch } from "@/lib/create-store";
 
 const createTestProfileLayoutViewModel = ({
   userId,
-  dispatch = vitest.fn(),
 }: {
   userId: string;
   dispatch?: AppDispatch;
-}) => createProfileLayoutViewModel({ userId, dispatch });
+}) => createProfileLayoutViewModel({ userId });
 
 describe("Profile layout view model", () => {
   it("returns the user information", () => {
@@ -145,22 +142,5 @@ describe("Profile layout view model", () => {
 
       expect(viewModel.profilePictureUploading).toBe(false);
     }
-  });
-
-  it("should call the uploadProfilePicture use case on click", async () => {
-    const store = createTestStore();
-    const viewModel = createTestProfileLayoutViewModel({
-      userId: "alice-id",
-      dispatch: store.dispatch,
-    })(store.getState());
-    const picture = {
-      name: "alice.png",
-    } as Picture;
-
-    await viewModel.onClick(picture);
-
-    expect(store.getDispatchedUseCaseArgs(uploadProfilePicture)).toEqual({
-      picture,
-    });
   });
 });
