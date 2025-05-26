@@ -1,3 +1,5 @@
+import { createSelector } from "@reduxjs/toolkit";
+
 import { RootState } from "@/lib/create-store";
 import {
   selectAreFollowingOfLoading,
@@ -10,52 +12,73 @@ export enum ProfileFollowingViewModelType {
   ProfileFollowingLoaded = "PROFILE_FOLLOWING_LOADED",
 }
 
+type FollowingUserViewModel = {
+  id: string;
+  username: string;
+  followersCount: number;
+  isFollowedByAuthUser: boolean;
+  profilePicture: string;
+  link: string;
+};
+
+type ProfileFollowingLoadingState = {
+  type: ProfileFollowingViewModelType.ProfileFollowingLoading;
+};
+
+type ProfileFollowingLoadedState = {
+  type: ProfileFollowingViewModelType.ProfileFollowingLoaded;
+  following: FollowingUserViewModel[];
+};
+
 export type ProfileFollowingViewModel =
-  | {
-      type: ProfileFollowingViewModelType.ProfileFollowingLoading;
-    }
-  | {
-      type: ProfileFollowingViewModelType.ProfileFollowingLoaded;
-      following: {
-        id: string;
-        username: string;
-        followersCount: number;
-        isFollowedByAuthUser: boolean;
-        profilePicture: string;
-        link: string;
-      }[];
-    };
+  | ProfileFollowingLoadingState
+  | ProfileFollowingLoadedState;
 
-export const createProfileFollowingViewModel =
-  ({ of }: { of: string }) =>
-  (rootState: RootState): ProfileFollowingViewModel => {
-    const areFollowingLoading = selectAreFollowingOfLoading(of, rootState);
+export const createProfileFollowingViewModel = ({ of }: { of: string }) => {
+  const selectIsDataLoading = (state: RootState): boolean =>
+    selectAreFollowingOfLoading(of, state);
 
-    if (areFollowingLoading) {
-      return {
-        type: ProfileFollowingViewModelType.ProfileFollowingLoading,
-      };
-    }
+  const selectFollowingUserIds = (state: RootState): string[] =>
+    selectFollowingOf(of, state);
 
-    const following = selectFollowingOf(of, rootState);
+  const selectFullState = (state: RootState): RootState => state;
 
-    return {
-      type: ProfileFollowingViewModelType.ProfileFollowingLoaded,
-      following: following
-        .map((followingId) => {
-          const user = selectUser(followingId, rootState);
-          if (!user) {
+  return createSelector(
+    [selectIsDataLoading, selectFollowingUserIds, selectFullState],
+    (
+      areFollowingLoading: boolean,
+      followingUserIds: string[],
+      rootState: RootState
+    ): ProfileFollowingViewModel => {
+      if (areFollowingLoading) {
+        return {
+          type: ProfileFollowingViewModelType.ProfileFollowingLoading,
+        };
+      }
+
+      const mappedFollowing = followingUserIds
+        .map((userId): FollowingUserViewModel | null => {
+          const followedUser = selectUser(userId, rootState);
+
+          if (!followedUser) {
             return null;
           }
+
           return {
-            id: followingId,
-            username: user.username,
-            followersCount: user.followersCount,
-            isFollowedByAuthUser: user.isFollowedByAuthUser,
-            profilePicture: user.profilePicture,
-            link: `/u/${followingId}`,
+            id: followedUser.id, // or userId
+            username: followedUser.username,
+            followersCount: followedUser.followersCount,
+            isFollowedByAuthUser: followedUser.isFollowedByAuthUser,
+            profilePicture: followedUser.profilePicture,
+            link: `/u/${followedUser.id}`,
           };
         })
-        .filter(Boolean),
-    };
-  };
+        .filter((user): user is FollowingUserViewModel => user !== null); // Type guard to remove nulls
+
+      return {
+        type: ProfileFollowingViewModelType.ProfileFollowingLoaded,
+        following: mappedFollowing,
+      };
+    }
+  );
+};

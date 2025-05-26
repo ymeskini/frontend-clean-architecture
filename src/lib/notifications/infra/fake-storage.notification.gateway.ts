@@ -5,6 +5,7 @@ import { Notification } from "../model/notification.entity";
 import { NotificationGateway } from "../model/notification.gateway";
 
 export class FakeStorageNotificationGateway implements NotificationGateway {
+
   getNotifications({
     authUserId,
   }: {
@@ -26,6 +27,7 @@ export class FakeStorageNotificationGateway implements NotificationGateway {
       }, 500);
     });
   }
+
   onNewNotificationReceived(
     authUserId: string,
     onNewNotification: (notification: Notification) => void

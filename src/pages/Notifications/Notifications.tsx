@@ -1,4 +1,4 @@
-import { Notification } from "@/components/Notification";
+import { keyframes } from "@emotion/react";
 import {
   Box,
   Button,
@@ -7,15 +7,17 @@ import {
   StackDivider,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import { Notification } from "@/components/Notification";
+import { exhaustiveGuard } from "@/lib/common/utils/exhaustive-guard";
+import { AppDispatch } from "@/lib/create-store";
 import {
   NotificationsViewModelType,
   createNotificationsViewModel,
 } from "./notifications.viewmodel";
-import { exhaustiveGuard } from "@/lib/common/utils/exhaustive-guard";
-import { useState } from "react";
-import { AppDispatch } from "@/lib/create-store";
-import { keyframes } from "@emotion/react";
+import { markAllNotificationsAsRead } from "@/lib/notifications/usecases/mark-all-notifications-as-read.usecase";
 
 const fade = keyframes`
     from { background-color: rgba(200, 233, 251, 1); }
@@ -30,7 +32,6 @@ export const Notifications = () => {
       now: new Date(),
       lastSeenNotificationId,
       setLastSeenNotificationId,
-      dispatch,
     })
   );
 
@@ -52,7 +53,10 @@ export const Notifications = () => {
                 <Center>
                   <Button
                     variant="link"
-                    onClick={viewModel.displayNewNotifications}
+                    onClick={async () => {
+                      await dispatch(markAllNotificationsAsRead());
+                      setLastSeenNotificationId(viewModel.notifications[0].id);
+                    }}
                   >
                     {viewModel.newNotifications}
                   </Button>

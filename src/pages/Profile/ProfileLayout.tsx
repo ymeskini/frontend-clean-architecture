@@ -1,13 +1,15 @@
+import { Box, Button, Heading, Input, TabList, Tabs } from "@chakra-ui/react";
+import { ChangeEvent, useRef } from "react";
+import { HiPhotograph } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useParams } from "react-router-dom";
+
 import { CardContent } from "@/components/profile/CardContent";
 import { CardWithAvatar } from "@/components/profile/CardWithAvatar";
 import { NavTab } from "@/components/profile/NavTab";
-import { Box, Button, Heading, Input, TabList, Tabs } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useParams } from "react-router-dom";
 import { createProfileLayoutViewModel } from "./profile-layout.viewmodel";
-import { HiPhotograph } from "react-icons/hi";
-import { ChangeEvent, useRef } from "react";
 import { AppDispatch } from "@/lib/create-store";
+import { uploadProfilePicture } from "@/lib/users/usecases/upload-profile-picture.usecase";
 
 export const ProfileLayout = () => {
   const fileInputRef = useRef(null);
@@ -15,11 +17,11 @@ export const ProfileLayout = () => {
   const userId = params.userId as string;
   const dispatch = useDispatch<AppDispatch>();
   const viewModel = useSelector(
-    createProfileLayoutViewModel({ userId, dispatch })
+    createProfileLayoutViewModel({ userId })
   );
 
   const handleProfilePictureChange = (event: ChangeEvent<HTMLInputElement>) => {
-    viewModel.onClick(event.target.files![0]);
+    return dispatch(uploadProfilePicture({ picture: event.target.files![0] }));
   };
 
   return (
@@ -28,10 +30,10 @@ export const ProfileLayout = () => {
         <Box position="absolute" inset="0" height="32" bg="blue.600" />
         <CardWithAvatar
           maxW="xl"
+          uploading={viewModel.profilePictureUploading}
           avatarProps={{
             src: viewModel.profilePicture,
             name: viewModel.username,
-            uploading: viewModel.profilePictureUploading,
           }}
           action={
             viewModel.isAuthUserProfile ? (

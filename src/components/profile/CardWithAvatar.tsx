@@ -11,7 +11,8 @@ import {
 import { ReactNode } from "react";
 
 interface CardWithAvatarProps extends FlexProps {
-  avatarProps: AvatarProps & { uploading?: boolean };
+  avatarProps: AvatarProps;
+  uploading: boolean;
   action?: ReactNode;
 }
 
@@ -40,7 +41,7 @@ export const LoadingCardWithAvatar = (
 };
 
 export const CardWithAvatar = (props: CardWithAvatarProps) => {
-  const { action, avatarProps, children, ...rest } = props;
+  const { action, avatarProps, uploading, children, ...rest } = props;
   return (
     <Flex
       position="relative"
@@ -62,7 +63,7 @@ export const CardWithAvatar = (props: CardWithAvatarProps) => {
         size="xl"
         {...avatarProps}
       >
-        {avatarProps.uploading && (
+        {uploading && (
           <CircularProgress
             isIndeterminate
             color="twitter.300"
