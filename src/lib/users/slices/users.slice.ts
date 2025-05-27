@@ -128,3 +128,5 @@ export const selectIsUserLoading = (userId: string, rootState: RootState) =>
 
 export const selectIsProfilePictureUploading = (rootState: RootState) =>
   rootState.users.users.profilePictureUploading;
+
+export const selectUsersState = (state: RootState) => state.users.users;

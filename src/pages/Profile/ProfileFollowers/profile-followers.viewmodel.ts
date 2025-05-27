@@ -5,7 +5,7 @@ import {
   selectAreFollowersOfLoading,
   selectFollowersOf,
 } from "@/lib/users/slices/relationships.slice";
-import { selectUser } from "@/lib/users/slices/users.slice";
+import { selectUser, selectUsersState } from "@/lib/users/slices/users.slice";
 
 export enum ProfileFollowersViewModelType {
   ProfileFollowersLoading = "PROFILE_FOLLOWERS_LOADING",
@@ -31,11 +31,11 @@ export type ProfileFollowersViewModel =
 export const createProfileFollowersViewModel = ({ of }: { of: string }) =>
   createSelector(
     [
-      (state) => selectAreFollowersOfLoading(of, state),
-      (state) => selectFollowersOf(of, state),
-      (state) => state
+      (state: RootState) => selectAreFollowersOfLoading(of, state),
+      (state: RootState) => selectFollowersOf(of, state),
+      selectUsersState
     ],
-    (areFollowersLoading, followers, rootState: RootState): ProfileFollowersViewModel => {
+    (areFollowersLoading, followers, usersState): ProfileFollowersViewModel => {
       if (areFollowersLoading) {
         return {
           type: ProfileFollowersViewModelType.ProfileFollowersLoading,
@@ -46,7 +46,7 @@ export const createProfileFollowersViewModel = ({ of }: { of: string }) =>
         type: ProfileFollowersViewModelType.ProfileFollowersLoaded,
         followers: followers
           .map((followerId) => {
-            const user = selectUser(followerId, rootState);
+            const user = selectUser(followerId, { users: { users: usersState } } as RootState);
             if (!user) {
               return null;
             }

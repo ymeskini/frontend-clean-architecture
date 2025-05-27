@@ -15,6 +15,8 @@ export class FakeMessageGateway implements MessageGateway {
     id: string;
   };
   lastUnlikedMessageId!: string;
+
+
   postMessage(message: {
     id: string;
     author: string;
@@ -27,6 +29,7 @@ export class FakeMessageGateway implements MessageGateway {
       ? Promise.resolve()
       : Promise.reject(new Error("Cannot send message. Please retry later"));
   }
+
   likeMessage(like: {
     id: string;
     userId: string;
@@ -35,6 +38,7 @@ export class FakeMessageGateway implements MessageGateway {
     this.lastLikeSent = like;
     return Promise.resolve();
   }
+
   unlikeMessage(likeId: string): Promise<void> {
     this.lastUnlikedMessageId = likeId;
     return Promise.resolve();

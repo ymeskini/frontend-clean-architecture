@@ -5,11 +5,12 @@ import {
   selectIsProfilePictureUploading,
   selectUser,
 } from "@/lib/users/slices/users.slice";
+import { RootState } from "@/lib/create-store";
 
 export const createProfileLayoutViewModel = ({ userId }: { userId: string }) =>
   createSelector(
     [
-      (state) => selectUser(userId, state),
+      (state: RootState) => selectUser(userId, state),
       selectAuthUserId,
       selectIsProfilePictureUploading,
     ],

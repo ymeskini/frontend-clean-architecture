@@ -5,7 +5,7 @@ import {
   selectAreFollowingOfLoading,
   selectFollowingOf,
 } from "@/lib/users/slices/relationships.slice";
-import { selectUser } from "@/lib/users/slices/users.slice";
+import { selectUser, selectUsersState } from "@/lib/users/slices/users.slice";
 
 export enum ProfileFollowingViewModelType {
   ProfileFollowingLoading = "PROFILE_FOLLOWING_LOADING",
@@ -34,21 +34,17 @@ export type ProfileFollowingViewModel =
   | ProfileFollowingLoadingState
   | ProfileFollowingLoadedState;
 
-export const createProfileFollowingViewModel = ({ of }: { of: string }) => {
-  const selectIsDataLoading = (state: RootState): boolean =>
-    selectAreFollowingOfLoading(of, state);
-
-  const selectFollowingUserIds = (state: RootState): string[] =>
-    selectFollowingOf(of, state);
-
-  const selectFullState = (state: RootState): RootState => state;
-
-  return createSelector(
-    [selectIsDataLoading, selectFollowingUserIds, selectFullState],
+export const createProfileFollowingViewModel = ({ of }: { of: string }) =>
+  createSelector(
+    [
+      (state: RootState): boolean => selectAreFollowingOfLoading(of, state),
+      (state: RootState): string[] => selectFollowingOf(of, state),
+      selectUsersState,
+    ],
     (
-      areFollowingLoading: boolean,
-      followingUserIds: string[],
-      rootState: RootState
+      areFollowingLoading,
+      followingUserIds,
+      usersState
     ): ProfileFollowingViewModel => {
       if (areFollowingLoading) {
         return {
@@ -58,7 +54,9 @@ export const createProfileFollowingViewModel = ({ of }: { of: string }) => {
 
       const mappedFollowing = followingUserIds
         .map((userId): FollowingUserViewModel | null => {
-          const followedUser = selectUser(userId, rootState);
+          const followedUser = selectUser(userId, {
+            users: { users: usersState },
+          } as RootState);
 
           if (!followedUser) {
             return null;
@@ -81,4 +79,3 @@ export const createProfileFollowingViewModel = ({ of }: { of: string }) => {
       };
     }
   );
-};

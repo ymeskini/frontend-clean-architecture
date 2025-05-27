@@ -34,21 +34,20 @@ export type NotificationsViewModel =
       newNotifications: string;
     };
 
+type IViewModelDependencies = {
+  now: Date;
+  lastSeenNotificationId: string;
+  setLastSeenNotificationId: (notificationId: string) => void;
+};
+
 export const createNotificationsViewModel = ({
   now,
   lastSeenNotificationId,
   setLastSeenNotificationId,
-}: {
-  now: Date;
-  lastSeenNotificationId: string;
-  setLastSeenNotificationId: (notificationId: string) => void;
-}) =>
-  createSelector<
-    [typeof selectAreNotificationsLoading, typeof selectNotifications],
-    NotificationsViewModel
-  >(
+}: IViewModelDependencies) =>
+  createSelector(
     [selectAreNotificationsLoading, selectNotifications],
-    (areNotificationsLoading, notifications) => {
+    (areNotificationsLoading, notifications): NotificationsViewModel => {
       if (areNotificationsLoading) {
         return {
           type: NotificationsViewModelType.NotificationsLoading,
