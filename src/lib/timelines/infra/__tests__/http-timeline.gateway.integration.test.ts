@@ -1,8 +1,17 @@
-import nock from "nock";
+import { http, HttpResponse } from "msw";
 import { GetUserTimelineResponse } from "../../model/timeline.gateway";
 import { HttpTimelineGateway } from "../http-timeline.gateway";
+import { server } from "./mockServer";
 
 describe("HttpTimelineGateway", () => {
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   test("getUserTimeline", async () => {
     const fakeResponse: GetUserTimelineResponse = {
       timeline: {
@@ -39,9 +48,14 @@ describe("HttpTimelineGateway", () => {
         ],
       },
     };
-    nock("http://localhost:3000")
-      .get("/timelines?userId=alice-id")
-      .reply(200, fakeResponse);
+
+    server.use(
+      http.get("http://localhost:3000/timelines?userId=alice-id", () => {
+        return HttpResponse.json(fakeResponse, {
+          status: 200,
+        });
+      })
+    );
     const timelineGateway = new HttpTimelineGateway();
 
     const response = await timelineGateway.getUserTimeline({

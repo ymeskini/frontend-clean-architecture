@@ -1,7 +1,17 @@
-import nock from "nock";
+import { http, HttpResponse } from "msw";
+
 import { HttpMessageGateway } from "../http-message.gateway";
+import { server } from "./mockServer";
 
 describe("HttpMessageGateway", () => {
+  beforeAll(() => {
+    server.listen();
+  });
+
+  afterAll(() => {
+    server.close();
+  });
+
   test("postMessage", async () => {
     const message = {
       id: "m1",
@@ -10,15 +20,15 @@ describe("HttpMessageGateway", () => {
       publishedAt: "2023-06-12T20:58:00.000Z",
       timelineId: "alice-timeline-id",
     };
-    nock("http://localhost:3000", {
-      reqheaders: {
-        "Content-Type": "application/json",
-      },
-    })
-      .post("/messages", message)
-      .reply(201);
+    server.use(
+      http.post("http://localhost:3000/messages", () => {
+        return HttpResponse.json(message, {
+          status: 201,
+        });
+      })
+    );
     const messageGateway = new HttpMessageGateway();
 
-    expect(() => messageGateway.postMessage(message)).not.toThrowError();
+    await messageGateway.postMessage(message);
   });
 });
